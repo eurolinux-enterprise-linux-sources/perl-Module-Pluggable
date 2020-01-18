@@ -2,12 +2,15 @@ Name:           perl-Module-Pluggable
 # Epoch to compete with perl.spec
 Epoch:          1
 Version:        4.8
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Automatically give your module the ability to have plugins
 License:        GPL+ or Artistic
 Group:          Development/Libraries
 URL:            http://search.cpan.org/dist/Module-Pluggable/
 Source0:        http://www.cpan.org/authors/id/S/SI/SIMONW/Module-Pluggable-%{version}.tar.gz
+# Do not ignore single-letter-named packages, bug #1048708, CPAN RT#89680,
+# fixed in 5.0.
+Patch0:         Module-Pluggable-4.8-Allow-single-letter-package-names.patch
 BuildArch:      noarch
 BuildRequires:  perl
 BuildRequires:  perl(FindBin)
@@ -47,6 +50,7 @@ into class names. Optionally it instantiates those classes for you.
 
 %prep
 %setup -q -n Module-Pluggable-%{version}
+%patch0 -p1
 find -type f -exec chmod -x {} +
 
 %build
@@ -66,6 +70,12 @@ perl Build.PL installdirs=vendor
 %{_mandir}/man3/*
 
 %changelog
+* Mon Jan 06 2014 Petr Pisar <ppisar@redhat.com> - 1:4.8-3
+- Do not ignore single-letter-named packages (bug #1048708)
+
+* Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 1:4.8-2
+- Mass rebuild 2013-12-27
+
 * Tue May 28 2013 Petr Pisar <ppisar@redhat.com> - 1:4.8-1
 - 4.8 bump
 
